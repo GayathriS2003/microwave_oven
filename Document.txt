@@ -1,0 +1,90 @@
+[NAME]: GAYATHRI S
+
+[STUDENT_ID]:  (26007F_012)
+
+[PROJECT TITLE]: MICROWAVE OVEN
+
+[DATE]:26/10/2026
+
+
+__________________________________________________________________________________________________________________________________________
+----------------------------------------------------[DESCRIPTION]-------------------------------------------------------------------------
+                                                    [Introduction]
+
+
+A microwave oven is an essential kitchen appliance used for quick cooking and reheating food.
+It works by producing electromagnetic waves called microwaves that cause water molecules in food to vibrate and generate heat.
+Compared to traditional ovens, it cooks food much faster and consumes less energy.
+Modern microwave ovens come with features like grill, convection, and auto-cook menus for versatile cooking.
+It is widely used in homes, offices, and restaurants for its convenience and time-saving benefits.
+Overall, the microwave oven has made daily cooking simpler, faster, and more efficient.
+
+__________________________________________________________________________________________________________________________________________
+------------------------------------------------------------------------------------------------------------------------------------------
+                                                    [Objectives]
+
+The main objective of this project is to design and develop a Smart Microwave Oven Control System using PIC microcontroller that automates cooking process with multiple modes.It aims to implement a real-time timer based cooking system with features like mode selection (Micro, Grill, Convection), time setting, pre-heating, pause/resume and automatic cooking completion alert.The objective is also to understand embedded system concepts like Timer0 interrupts, state machine architecture, CLCD interfacing, matrix keypad handling and peripheral control (heater, cooler, buzzer) using Embedded C.In simple terms: To build a low-cost, user-friendly and automated microwave oven controller that ensures precise cooking control and safety.
+
+
+
+__________________________________________________________________________________________________________________________________________
+------------------------------------------------------------------------------------------------------------------------------------------
+                                                    [Working principle]
+
+
+Power ON: When powered, system initializes CLCD, Timer0, and all outputs (Heater, Cooler, Buzzer OFF). Displays "Microwave Oven" for 1.25 sec using power_on_count.
+
+=> Menu (State 1): System waits in MENU state. User selects mode using keypad - 1 for MICRO, 2 for GRILL, 3 for CONVECTION. Debouncing is done using power_on_count - last_key_time > 200ms.
+
+=> Time Set (State 2): After mode selection, user enters cooking time in MM:SS format. Keypad digits are shifted: total_input = (mm_100+ss)_10+key. * for Clear and # for Enter. After valid time entry, it goes to next state.
+
+=> Pre-Heating (State 3): This state is only for Convection mode. Heater and Cooler both ON for 60 seconds. Timer0 interrupt generates sec_tick every 1 sec, which decrements preheat counter and updates LCD.
+
+=>Cooking (State 4): Heater and Cooler ON, remaining_sec starts decrementing every 1 sec based on sec_tick flag from ISR. LCD shows live countdown TIME = MM:SS. User can Pause (Key 5) or Stop (Key 6) anytime. When remaining_sec becomes 0, it goes to Done state.
+
+=>Cooking Done (State 5): Heater/Cooler OFF, LCD shows "Cooking Done!" and buzzer toggles for 6 seconds using cooking_done_wait. After that, system automatically resets to Menu state.
+
+
+__________________________________________________________________________________________________________________________________________
+------------------------------------------------------------------------------------------------------------------------------------------
+                                                  [File Structure]
+
+1.main.c
+
+2.clcd.c
+
+3.clcd.h
+
+4.main.h
+
+5.mkp.h
+
+6.mkp.c
+
+7.isr.c
+
+__________________________________________________________________________________________________________________________________________
+------------------------------------------------------------------------------------------------------------------------------------------
+                                               [Advantages of lexical analyzer]
+
+
+Multiple Cooking Modes: Supports MICRO, GRILL and CONVECTION modes in single controller, user can select as per need.
+
+Automated & User Friendly: Simple keypad interface for time setting and state machine logic makes it easy to operate, even for non-technical users.
+
+Precise Time Control: Uses Timer0 interrupt for accurate 1 second countdown, so cooking time is precise without manual monitoring.
+
+Safety Features: Heater and Cooler automatically OFF after cooking or on pause/stop, prevents overheating and saves power.
+
+Low Cost & Efficient: Implemented on PIC microcontroller with Embedded C, no need for costly PLC or advanced boards, suitable for real products.
+
+Real-Time Features: Includes pre-heating for convection, pause/resume, and buzzer alert after cooking done - similar to commercial microwave ovens.
+
+Interrupt Based Design: Uses interrupt for timing instead of blocking delays, so system is responsive to keypad inputs at any time.
+
+
+__________________________________________________________________________________________________________________________________________
+------------------------------------------------------------------------------------------------------------------------------------------
+                                                    [Conclusion]
+
+The Smart Microwave Oven project was successfully designed and implemented using PIC microcontroller and Embedded C. The system effectively controls cooking operations through 3 modes - MICRO, GRILL and CONVECTION with accurate timer control using Timer0 interrupts.The state machine approach made the system stable and easy to manage different states like Menu, Time Setting, Pre-heating, Cooking and Cooking Done. Features like pause/resume, auto shutoff and buzzer alert improve both user convenience and safety.Overall, this project provided practical knowledge in embedded systems, peripheral interfacing (CLCD, keypad, heater, buzzer) and real-time interrupt handling, and it can be further enhanced with temperature sensors, I2C EEPROM for recipe storage and IoT connectivity in future.
